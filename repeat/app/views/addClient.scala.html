@@ -1,0 +1,36 @@
+@(clientForm: Form[models.Client], user: models.users.User)
+
+@import helper._
+
+
+@main("Add Client", user){
+    <p class="lead"> Add a new client</p>
+
+    @form(action=routes.HomeController.addClientSubmit(), 'class -> "form-horizontal", 'role -> "form", 'enctype -> "multipart/form-data"){
+
+    @CSRF.formField
+
+
+    @inputText(clientForm("name"), '_label -> "Name", 'class -> "form-control")
+    @inputText(clientForm("description"), '_label -> "Description", 'class -> "form-control")
+    @inputText(clientForm("address.addName"), '_label -> "Address: ", 'class -> "form-control")
+    @inputText(clientForm("address.eirCode"), '_label -> "Eircode: ", 'class -> "form-control")
+    @inputText(clientForm("cv.cvName"), '_label -> "CV Name", 'class -> "form-control")
+    @inputText(clientForm("cv.objective"), '_label -> "Objective", 'class -> "form-control")
+    @inputText(clientForm("cv.education"), '_label -> "Education", 'class -> "form-control")
+    @inputText(clientForm("cv.workExperience"), '_label -> "Work experience", 'class -> "form-control")
+
+    @inputText(clientForm("id"),'label -> "", 'hidden -> "hidden")
+
+    <label>Upload an client image</label>
+    <input class="btn-sm btn-default" type="file" name="upload">
+    <br><br>
+
+    <div class="actions">
+        <input type ="submit" value="add/UpdateClient" class="btn btn-primary">
+        <a href="@routes.HomeController.index">
+            <button type="button" class="btn btn-warning">Cancel</button>
+        </a>
+    </div>
+}
+}

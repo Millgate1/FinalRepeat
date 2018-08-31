@@ -1,0 +1,78 @@
+@(clients: List[models.Client], user: models.users.User, env: play.api.Environment)
+
+<!--
+X000139473
+Ben O'Flaherty
+-->
+
+@main("Client Page", user) {
+  
+  <p class="lead">Client Information</p>
+  
+  @if(flash.containsKey("success")){
+    <div class="alert alert-success">
+      @flash.get("success")
+    </div>
+  }
+  <table class="table table-bordered table-hover table-condensed">
+  
+  <thead>
+  
+  <!-- The header row-->
+  
+  <tr>
+     <th>Image</th>
+     <th>ID</th>
+     <th>Client Name</th>
+     <th>Description</th>
+     <th>Address</th>
+     <th>CV</th>
+  </tr>
+  
+  </thead>
+  
+  <tbody>
+  
+  <!-- Client row(s) -->
+  
+  <tr>
+    @for(c<-clients) {
+      <tr>
+          @if(env.resource("public/images/clientImages/thumbnails/" + c.getId + ".jpg").isDefined) {
+            <td><img src="/assets/images/clientImages/thumbnails/@(c.getId + ".jpg")"/></td>
+        } else {
+            <td><img src="/assets/images/clientImages/thumbnails/noImage.jpg"/></td>
+        }
+        <td>@c.getId</td>
+        <td>@c.getName</td>
+        <td>@c.getDescription</td>
+        <td>@c.getAddress.getAddressName()</td>
+        <td><a href="@routes.HomeController.clientDetails(c.getId)">@c.getCV.getCVObjective()</td></a>
+
+        <td>
+            <a href="@routes.HomeController.updateClient(c.getId)" class="button-xs btn-danger">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+        </td>
+
+        <td>
+            <a href="@routes.HomeController.deleteClient(c.getId)" class="btn-xs btn-danger" onclick="return confirmDel();">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </td>
+      </tr>
+    }
+  
+  </tr>
+  
+  </tbody>
+  
+  </table>
+
+  <p>
+      <a href="@routes.HomeController.addClient()">
+          <button class="btn btn-primary">Add a client</button>
+      </a>
+  </p>
+  
+  }

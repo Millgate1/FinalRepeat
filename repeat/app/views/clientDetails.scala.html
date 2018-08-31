@@ -1,0 +1,47 @@
+@(c: models.Client,user: models.users.User,env: play.api.Environment)
+
+@main("Full Image", user) {
+
+  <p class="lead">Client Details</p>
+
+  <div class="col-sm-10">
+    <table class="table table-bordered table-hover table-condensed">
+      @if(flash.containsKey("success")) {
+        <div class="alert alert-success">
+          @flash.get("success")
+        </div>
+      }
+      <thead>
+        <tr>
+          <th>Image</th> 
+          <th>ID</th> 
+          <th>Name</th>
+          <th>Objective</th>
+          <th>Education</th>
+          <th>Work Experience</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+          <tr>
+              @if(env.resource("public/images/clientImages/" + c.getId + ".jpg").isDefined) {
+                <td><img src="/assets/images/clientImages/@(c.getId + ".jpg")"/></td>
+            } else {
+                <td><img src="/assets/images/clientImages/noImage.jpg"/></td>
+            }
+            <td class="numeric">@c.getId</td>
+            <td>@c.getName()</td>
+            <td>@c.getCV.getCVObjective()</td>
+            <td>@c.getCV.getCVEducation()</td>
+            <td>@c.getCV.getCVExperience()</td>
+          </tr>
+        
+      </tbody>
+
+    </table>
+
+    
+  </div>
+</div>
+}
